@@ -1,0 +1,64 @@
+{
+	"compiler": {
+		"version": "0.8.18+commit.87f61d96"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_id",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_password",
+						"type": "string"
+					}
+				],
+				"name": "setUser",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/99_test.sol": "codingTest"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/99_test.sol": {
+			"keccak256": "0x77c3eddf746c1eaf7aa68be2ffcaac9117133b2d4cf655820fa1744c06d05700",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://faa7ed5a9367a39a3dc36a19cddaf438e9f65d043abc19be5b4f08d5ceb02ab4",
+				"dweb:/ipfs/QmVQLfWvJf2xVjE34F1kwhj6yHa4m1Hq1g4caDXvQzbSKu"
+			]
+		}
+	},
+	"version": 1
+}
