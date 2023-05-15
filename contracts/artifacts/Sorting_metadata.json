@@ -33,14 +33,21 @@
 			},
 			{
 				"inputs": [],
-				"name": "sorting",
+				"name": "sortingDown",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
 				"inputs": [],
-				"name": "sorting2",
+				"name": "sortingUp",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "sortingUp2",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -74,11 +81,11 @@
 	},
 	"sources": {
 		"contracts/2_sorting.sol": {
-			"keccak256": "0x5a6619820c90c010b543f190f515f4658073e44fb623ed9b2d104b6a638896b9",
+			"keccak256": "0xd8f36064517f28407acb087d049cbb018ac98239fc266de9dfa7a074de72ee61",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://77291ef3da1f2470cf7c301cd5c73abdfe5ac63181b253b4dba9ff756eb7d185",
-				"dweb:/ipfs/QmVFe8uRtkU8QogeSQjhmTZ1xFHsBHShp8bph95xuQj1xd"
+				"bzz-raw://414e52e7989920b5b811138bf65a4e762c16aa55a8e8854013026a0200bb9ce9",
+				"dweb:/ipfs/QmRSmAnSi8JY5u2xExjwucubmFxnn7GMkP2Mchr195dRVH"
 			]
 		}
 	},

@@ -8,7 +8,7 @@ contract Sorting {
         numbers.push(_n);
     }
 
-    function sorting() public {
+    function sortingUp() public {
         for(uint i = 0; i < numbers.length - 1; i++) {
             for(uint j = i + 1; j < numbers.length; j++) {
                 if(numbers[i] < numbers[j]) {
@@ -18,10 +18,20 @@ contract Sorting {
         }
     }
 
-    function sorting2() public {
+    function sortingUp2() public {
         for(uint j = 1; j < numbers.length; j++) {
             for(uint i = 0; i < j; i++) {
                 if(numbers[i] < numbers[j]) {
+                    (numbers[i], numbers[j]) = (numbers[j], numbers[i]);
+                }
+            }
+        }
+    }
+
+    function sortingDown() public {
+        for(uint i = 0; i < numbers.length - 1; i++) {
+            for(uint j = i + 1; j < numbers.length; j++) {
+                if(numbers[i] > numbers[j]) {
                     (numbers[i], numbers[j]) = (numbers[j], numbers[i]);
                 }
             }

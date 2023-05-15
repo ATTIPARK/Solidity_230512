@@ -14,40 +14,36 @@ contract codingTest {
 
     value인 bytes32는 ID와 PW를 같이 넣은 후 나온 결과값으로 설정하기
     abi.encodePacked() 사용하기
-
-    * 로그인 기능 - ID, PW를 넣으면 로그인 여부를 알려주는 기능
-    * 회원가입 기능 - 새롭게 회원가입할 수 있는 기능
-    ---------------------------------------------------------------------------
-    * 회원가입시 이미 존재한 아이디 체크 여부 기능 - 이미 있는 아이디라면 회원가입 중지
-    * 비밀번호 5회 이상 오류시 경고 메세지 기능 - 비밀번호 시도 회수가 5회되면 경고 메세지 반환
-    * 회원탈퇴 기능 - 회원이 자신의 ID와 PW를 넣고 회원탈퇴 기능을 실행하면 관련 정보 삭제 
     */
+    mapping (string => bytes32) ID_PW;
+    uint count;
 
-    struct User{
-        string id;
-        bytes32 password;
+    //* 로그인 기능 - ID, PW를 넣으면 로그인 여부를 알려주는 기능
+    //* 비밀번호 5회 이상 오류시 경고 메세지 기능 - 비밀번호 시도 회수가 5회되면 경고 메세지 반환
+    function logIn(string memory _ID, string memory _PW) public view returns(bool){
+        if(ID_PW[_ID] == keccak256(abi.encodePacked(_ID, _PW))) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    User[] UserData;
-    mapping (string => bytes32) PasswordToByte;
 
-    // 회원가입 기능 - 새롭게 회원가입할 수 있는 기능
-    function setUser(string memory _id, string memory _password) public {
-        PasswordToByte[_password] = keccak256(abi.encodePacked(_password));
-        UserData.push(User(_id, PasswordToByte[_password]));
+    //* 회원가입 기능 - 새롭게 회원가입할 수 있는 기능
+    //* 회원가입시 이미 존재한 아이디 체크 여부 기능 - 이미 있는 아이디라면 회원가입 중지
+    function signIn(string memory _ID, string memory _PW) public {
+        if(ID_PW[_ID] == keccak256(abi.encodePacked(_ID, _PW))) {
+            revert("This ID is already exist.");
+        } else{
+            ID_PW[_ID] = keccak256(abi.encodePacked(_ID, _PW));
+        }
     }
 
-    // 로그인 기능 - ID, PW를 넣으면 로그인 여부를 알려주는 기능
-    // function Login(string memory _id, string memory _password) public view returns(string memory) {
-    //     for(uint i = 0; i < UserData.length; i++) {
-    //         if(keccak256(abi.encodePacked(_id)) == keccak256(abi.encodePacked(UserData[i].id))) {
-    //             if(keccak256(abi.encodePacked(_password)) == UserData[i].password) {
-    //                 return "로그인 성공";
-    //             }
-    //             return "비밀번호가 틀렸습니다";
-    //         }
-    //         return "없는 아이디입니다";
-    //     }
-    // }
+    function ShowData(string memory _ID) public view returns(bytes32) {
+        return ID_PW[_ID];
+    }
+
+    //---------------------------------------------------------------------------
+    //* 회원탈퇴 기능 - 회원이 자신의 ID와 PW를 넣고 회원탈퇴 기능을 실행하면 관련 정보 삭제 
 }
 
 contract codingTestAnswer {
@@ -64,20 +60,42 @@ contract codingTestAnswer {
     value인 bytes32는 ID와 PW를 같이 넣은 후 나온 결과값으로 설정하기
     abi.encodePacked() 사용하기
     */
-    mapping (string => bytes32) ID_PW;
+    struct User{
+        bytes32 hash;
+        uint attempts;
+    }
+
+    mapping (string => User) ID_PW;
+
+    function getHash(string memory _ID, string memory _PW) public pure returns(bytes32) {
+        return keccak256(abi.encodePacked(_ID, _PW));
+    }
 
     //* 로그인 기능 - ID, PW를 넣으면 로그인 여부를 알려주는 기능
-    function logIn(string memory _ID, string memory _PW) public view returns(bool){
-        return ID_PW[_ID] == keccak256(abi.encodePacked(_ID, _PW));
+    //* 비밀번호 5회 이상 오류시 경고 메세지 기능 - 비밀번호 시도 회수가 5회되면 경고 메세지 반환
+    function logIn(string memory _ID, string memory _PW) public returns(bool){
+        require(ID_PW[_ID].attempts < 5, "Too much attemps");
+        if(ID_PW[_ID].hash == keccak256(abi.encodePacked(_ID, _PW))) {
+            ID_PW[_ID].attempts = 0;
+            return true;
+        } else {
+            ID_PW[_ID].attempts++;
+            return false;
+        }
     }
 
     //* 회원가입 기능 - 새롭게 회원가입할 수 있는 기능
+    //* 회원가입시 이미 존재한 아이디 체크 여부 기능 - 이미 있는 아이디라면 회원가입 중지
     function signIn(string memory _ID, string memory _PW) public {
-        ID_PW[_ID] = keccak256(abi.encodePacked(_ID, _PW));
+        // require(ID_PW[_ID].hash == 0x0000000000000000000000000000000000000000000000000000000000000000, "Provided ID is already exist");
+        require(ID_PW[_ID].hash == "", "Provided ID is already exist");
+        ID_PW[_ID].hash = keccak256(abi.encodePacked(_ID, _PW));
     }
 
-    //---------------------------------------------------------------------------
-    //* 회원가입시 이미 존재한 아이디 체크 여부 기능 - 이미 있는 아이디라면 회원가입 중지
-    //* 비밀번호 5회 이상 오류시 경고 메세지 기능 - 비밀번호 시도 회수가 5회되면 경고 메세지 반환
     //* 회원탈퇴 기능 - 회원이 자신의 ID와 PW를 넣고 회원탈퇴 기능을 실행하면 관련 정보 삭제 
+    function signOut(string memory _ID, string memory _PW) public {
+        require(ID_PW[_ID].hash == keccak256(abi.encodePacked(_ID, _PW)));
+        // require(logIn(_ID, _PW) == true);
+        delete ID_PW[_ID];
+    }
 }
